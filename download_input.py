@@ -4,8 +4,8 @@ Download Advent of Code input for a specific day.
 
 Requires AOC_SESSION environment variable or .aoc_session file.
 Usage:
-    python download_input.py 1      # Download day 1 input
-    python download_input.py 5 2025 # Download day 5 input for 2025
+    python download_input.py 1      # Download day 1 input for current year
+    python download_input.py 5 2024 # Download day 5 input for 2024
 """
 
 import sys
@@ -14,6 +14,21 @@ import urllib.request
 import urllib.error
 from pathlib import Path
 from typing import Optional
+from datetime import datetime
+import argparse
+
+
+def get_current_year() -> int:
+    """Get the current year."""
+    return datetime.now().year
+
+
+def get_current_day() -> int:
+    """Get the current day in December, or 25 if not December."""
+    today = datetime.now()
+    if today.month == 12:
+        return min(today.day, 25)
+    return 25
 
 
 def get_session_cookie() -> Optional[str]:
@@ -36,17 +51,20 @@ def get_session_cookie() -> Optional[str]:
     return None
 
 
-def download_input(day: int, year: int = 2025) -> Optional[str]:
+def download_input(day: int, year: Optional[int] = None) -> Optional[str]:
     """
     Download AoC input for a specific day.
 
     Args:
         day: Day number (1-25)
-        year: Year (default: 2025)
+        year: Year (default: current year)
 
     Returns:
         Input data as string, or None if download fails
     """
+    if year is None:
+        year = get_current_year()
+
     if not 1 <= day <= 25:
         print(f"❌ Error: Day must be between 1 and 25, got {day}")
         return None
@@ -83,28 +101,32 @@ def download_input(day: int, year: int = 2025) -> Optional[str]:
         return None
 
 
-def save_input(day: int, content: str) -> bool:
+def save_input(day: int, content: str, year: Optional[int] = None) -> bool:
     """
     Save input to day folder.
 
     Args:
         day: Day number
         content: Input content
+        year: Year (default: current year)
 
     Returns:
         True if successful, False otherwise
     """
-    day_folder = Path(__file__).parent / f"aoc2025" / f"day{day}"
+    if year is None:
+        year = get_current_year()
+
+    day_folder = Path(__file__).parent / f"aoc{year}" / f"day{day}"
     input_file = day_folder / "input.txt"
 
     if not day_folder.exists():
         print(f"❌ Error: day{day} folder not found")
-        print(f"   Create it first with: python main.py create {day}")
+        print(f"   Create it first with: python main.py create {day} --year {year}")
         return False
 
     try:
         input_file.write_text(content)
-        print(f"✅ Downloaded input for day {day}")
+        print(f"✅ Downloaded input for {year} day {day}")
         print(f"   Saved to: {input_file}")
         return True
     except Exception as e:
@@ -114,23 +136,35 @@ def save_input(day: int, content: str) -> bool:
 
 def main() -> None:
     """Main entry point."""
-    if len(sys.argv) < 2:
-        print("Usage: python download_input.py <day> [year]")
-        print("Example: python download_input.py 5")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(
+        description="Download Advent of Code input for a specific day",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python download_input.py 5              # Download day 5 for current year
+  python download_input.py 5 2024         # Download day 5 for 2024
+  python download_input.py 5 -y 2024      # Download day 5 for 2024 (short form)
+        """
+    )
 
-    try:
-        day = int(sys.argv[1])
-        year = int(sys.argv[2]) if len(sys.argv) > 2 else 2025
-    except ValueError:
-        print("❌ Error: day and year must be integers")
-        sys.exit(1)
+    parser.add_argument("day", type=int, help="Day number (1-25)")
+    parser.add_argument("year", nargs="?", type=int, default=None,
+                       help="Year (default: current year)")
+    parser.add_argument("-y", "--year-flag", type=int, default=None, dest="year_flag",
+                       help="Year using -y flag (overrides positional year)")
 
-    print(f"📥 Downloading input for Day {day} ({year})...")
-    content = download_input(day, year)
+    args = parser.parse_args()
+
+    # Use year_flag if provided, otherwise use positional year argument
+    year = args.year_flag if args.year_flag is not None else args.year
+    if year is None:
+        year = get_current_year()
+
+    print(f"📥 Downloading input for Day {args.day} ({year})...")
+    content = download_input(args.day, year)
 
     if content is not None:
-        if save_input(day, content):
+        if save_input(args.day, content, year):
             sys.exit(0)
 
     sys.exit(1)

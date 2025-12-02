@@ -1,12 +1,12 @@
-# Advent of Code 2025
+# Advent of Code
 
-My solutions for [Advent of Code 2025](https://adventofcode.com/2025) and set up tools/utils.
+My solutions for [Advent of Code](https://adventofcode.com/) in Python with set up tools/utils for multiple years.
 
-This year, I am doing it again in Python with the hopes of going back and trying it again in Go later. 
-
-A rule for myself is I am going to **use no AI besides Copilot tab completions** and no hinting at what I want to solve with comments. Only after I solve it myself will I go back and see better ways of doing it with an LLM. 
+A rule for myself is I am going to **use no AI besides Copilot tab completions** and no hinting at what I want to solve with comments. Only after I solve it myself will I go back and see better ways of doing it with an LLM.
 
 ## Progress
+
+### 2025
 - Day 1 ⭐️ ⭐️
 - Day 2 ⭐️ ⭐️
 - Day 3
@@ -60,31 +60,42 @@ uv sync
 ## Usage
 
 ### Create a new day
+
+Create a day for the **current year** :
 ```bash
-python main.py create 1
-# or (recommended)
-uv run main.py create 1
+uv run main.py create 5
 ```
+
+Create a day for a **past year**:
+```bash
+uv run main.py create 5 --year 2024
+```
+
 This creates a folder structure:
 ```
-aoc2025/day1/
-├── day1.py      (boilerplate with star1() and star2() functions)
+aoc2025/day5/
+├── day5.py      (boilerplate with star1() and star2() functions)
 ├── input.txt    (will have your downloaded input if session cookie is set)
 └── test.txt     (empty, for test data)
 ```
 
-
 ### Run solutions
-```bash
-# Run all days
-python main.py
-# or (recommended)
-uv run main.py
 
-# Run specific day
-python main.py run 1
-# or (recommended)
-uv run main.py run 1
+Run the **current day** of the **current year** (defaults if no arguments):
+```bash
+uv run main.py
+# or
+uv run main.py run
+```
+
+Run a **specific day** of the **current year**:
+```bash
+uv run main.py run 5
+```
+
+Run a day from a **past year**:
+```bash
+uv run main.py run 5 --year 2024
 ```
 
 ## Project Structure
@@ -98,7 +109,8 @@ Advent-of-Code-2025/
 ├── .aoc_session            # Session cookie (git-ignored)
 ├── README.md
 ├── .gitignore
-└── aoc2025/
+├── aoc2024/                # Previous year's solutions
+└── aoc2025/                # Current year's solutions
     ├── __init__.py
     ├── utils/
     │   ├── __init__.py
@@ -161,9 +173,35 @@ if __name__ == "__main__":
 
 When you run a day's solution, you'll see output like:
 ```
-🎄 Running Day 1:
+🎄 Running 2025 Day 1:
   ⭐ Star 1: ####
   ⭐ Star 2: ####
 ```
 
-
+### Past Years
+## 2024
+- Day 1: ⭐️⭐️
+- Day 2: ⭐️⭐️
+- Day 3: ⭐️⭐️
+- Day 4: ⭐️⭐️
+- Day 5: ⭐️⭐️
+- Day 6: ⭐️⭐️
+- Day 7: ⭐️⭐️
+- Day 8: ⭐️⭐️
+- Day 9: ⭐️
+- Day 10:⭐️⭐️
+- Day 11:⭐️⭐️
+- Day 12:
+- Day 13:
+- Day 14:
+- Day 15:
+- Day 16:
+- Day 17:
+- Day 18:
+- Day 19:
+- Day 20:
+- Day 21:
+- Day 22:
+- Day 23:
+- Day 24:
+- Day 25:
