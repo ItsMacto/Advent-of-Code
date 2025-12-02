@@ -11,6 +11,7 @@ Usage:
 import sys
 import os
 import urllib.request
+import urllib.error
 from pathlib import Path
 from typing import Optional
 
