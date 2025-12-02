@@ -87,21 +87,21 @@ def grid_rotate(grid: List[List[Any]], times: int = 1) -> List[List[Any]]:
     return result
 
 
-def grid_get(grid: List[List[Any]], x: int, y: int, default: Any = ".") -> Any:
+def grid_get(grid: List[List[Any]], row: int, col: int, default: Any = None) -> Any:
     """
     Safely get a value from the grid with boundary checking.
 
     Args:
         grid: 2D list to access
-        x: Column index
-        y: Row index
-        default: Value to return if out of bounds (default: ".")
+        row: Row index
+        col: Column index
+        default: Value to return if out of bounds (default: None)
 
     Returns:
-        Value at grid[y][x] or default if out of bounds
+        Value at grid[row][col] or default if out of bounds
     """
-    if 0 <= y < len(grid) and 0 <= x < len(grid[y]):
-        return grid[y][x]
+    if 0 <= row < len(grid) and 0 <= col < len(grid[row]):
+        return grid[row][col]
     return default
 
 
@@ -114,12 +114,12 @@ def grid_find(grid: List[List[Any]], target: Any) -> Optional[tuple[int, int]]:
         target: Value to find
 
     Returns:
-        Tuple of (x, y) or None if not found
+        Tuple of (row, col) or None if not found
     """
-    for y, row in enumerate(grid):
-        for x, cell in enumerate(row):
+    for row, row_data in enumerate(grid):
+        for col, cell in enumerate(row_data):
             if cell == target:
-                return (x, y)
+                return (row, col)
     return None
 
 
@@ -132,13 +132,13 @@ def grid_find_all(grid: List[List[Any]], target: Any) -> List[tuple[int, int]]:
         target: Value to find
 
     Returns:
-        List of (x, y) tuples
+        List of (row, col) tuples
     """
     results = []
-    for y, row in enumerate(grid):
-        for x, cell in enumerate(row):
+    for row, row_data in enumerate(grid):
+        for col, cell in enumerate(row_data):
             if cell == target:
-                results.append((x, y))
+                results.append((row, col))
     return results
 
 
