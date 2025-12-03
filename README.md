@@ -191,8 +191,8 @@ When you run a day's solution, you'll see output like:
 - Day 9: ⭐️⭐️
 - Day 10:⭐️⭐️
 - Day 11:⭐️⭐️
-- Day 12:
-- Day 13:
+- Day 12:⭐️
+- Day 13:⭐️⭐️
 - Day 14:
 - Day 15:
 - Day 16:
