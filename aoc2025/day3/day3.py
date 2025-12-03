@@ -1,4 +1,5 @@
 from aoc2025.utils.utils import read_input
+from functools import cache
 
 
 def star1() -> int:
@@ -18,19 +19,28 @@ def star1() -> int:
         total += highest
     return total
 
-
+# wow that was easier then i thought
 def star2() -> int:
-    # data = read_input(test=True)
-    # total = 0
-    # for line in data:
-    #     least_pos = -1
-    #     nums = []
-    #     for n in range(12):
-    #         for i in range(len(line) -1, least_pos, -1):
-                
+    @cache
+    def max_num(nums: tuple[int], num_take: int) -> int:
+        if num_take == 0 or not nums or len(nums) < num_take:
+            return 0
         
+        skip = max_num(nums[1:], num_take)
+        take = nums[0] * (10 ** (num_take - 1)) + max_num(nums[1:], num_take - 1)
+        return max(skip, take)
+    
         
-    return 0
+    data = read_input()
+    total = 0
+    TAKE = 12
+    
+    for line in data:
+        nums = list(map(int, line.strip()))
+        large = max_num(tuple(nums), TAKE)
+        # print(large)
+        total += large
+    return total
 
 
 if __name__ == "__main__":
