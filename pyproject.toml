@@ -18,6 +18,9 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
+dependencies = [
+    "z3-solver>=4.15.4.0",
+]
 
 [tool.uv]
 # UV configuration - uses requires-python from [project] section
