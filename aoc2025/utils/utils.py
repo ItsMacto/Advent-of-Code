@@ -66,6 +66,26 @@ def to_grid(data: Union[str, List[str]], to_int: bool = False) -> List[List[Unio
         return [[int(char) for char in line] for line in lines]
     return [list(line) for line in lines]
 
+def points_to_grid(points: List[tuple[int, int]], point: Any = '#', default: Any = '.') -> List[List[Any]]:
+    '''
+    Convert a list of (x, y) points to a 2D grid.
+    Args:
+        points: List of (x, y) tuples
+        point: Value to place at each point (default: '#')
+        default: Default value for empty cells (default: '.')
+        
+    Returns:
+        2D list representing the grid
+    '''
+    if not points:
+        return []
+    max_x = max(x for x, y in points)
+    max_y = max(y for x, y in points)
+    grid = [[default for _ in range(max_x + 1)] for _ in range(max_y + 1)]
+    for (x, y) in points:
+        grid[y][x] = point
+    return grid
+
 
 def grid_rotate(grid: List[List[Any]], times: int = 1) -> List[List[Any]]:
     """
