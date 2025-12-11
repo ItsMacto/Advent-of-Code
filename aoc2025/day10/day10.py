@@ -98,7 +98,7 @@ def star2() -> int:
             raise RuntimeError(f"No solution for line {line_idx}")
 
         model = opt.model()
-        total_steps += model.eval(total_presses).as_long()
+        total_steps += model.eval(total_presses).as_long() # type: ignore
     
     
     return total_steps
